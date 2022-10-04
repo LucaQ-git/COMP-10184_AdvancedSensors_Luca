@@ -1,9 +1,12 @@
 #include <Arduino.h>
 
 // ****************************************************************** 
-// Dallas Semiconductor DS18B20 Temperature Sensor Demo Program 
-// COMP-10184 
-// Mohawk College 
+// Luca Quacquarelli
+// 000838997
+// 2022-09-26
+// Mohawk College - COMP-10184 
+// Statement of authorship: I Luca Quacqarelli, 000838997 certify that this material is my original work.
+//No other person's work has been used without due acknowledgement. 
  
 // library for Arduino framework  
 #include <Arduino.h> 
@@ -34,37 +37,38 @@ void setup() {
   // Start the DS18B20 sensor 
   DS18B20.begin(); 
   
-  numberOfDevices = DS18B20.getDeviceCount();
+  numberOfDevices = DS18B20.getDeviceCount();// Getting the number of devices
   
 
   Serial.println("Temperature Application");
  
-  
-  if(numberOfDevices == 0) {
-    
-		Serial.print("No DS18B20 temperature sensors are installed!");
+  // if no devices are found print out one error message
+  if(numberOfDevices == 0) 
+  {
+    Serial.print("No DS18B20 temperature sensors are installed!");
     Serial.println();
-  }
-  else 
+  }// end if
+  else // else a device is found 
   {
     // Loop through each device, print out address
     for(int i = 0; i < numberOfDevices; i++) {
       // Search the wire for address
-    
-      if(DS18B20.getAddress(tempDeviceAddress, i)) {
+    	
+      if(DS18B20.getAddress(tempDeviceAddress, i)) // Finding the Temperature device that was found 
+      {
         Serial.print("Found DS18B20 sensor with address: ");
         // print a device address
         for (uint8_t i = 0; i < 8; i++)
         {
-          Serial.print(tempDeviceAddress[i], HEX);
-        }
+          Serial.print(tempDeviceAddress[i], HEX);// Printing the device in hexadecimal
+        }// end for loop #2
         Serial.println();
-		  } 
-    }
+      }// end if
+    }// end for loop #1
 
-  }
+  }// end else
 
-} 
+}// end setup()
  
 void loop() { 
   float fTemp; 
@@ -75,8 +79,10 @@ void loop() {
   // fetch the temperature.  We only have 1 sensor, so the index is 0. 
   fTemp = DS18B20.getTempCByIndex(0); 
   
-  
-  if(fTemp != -127.00) {
+  // If the device is unplugged the program will not continue with the if statements 
+  if(fTemp != -127.00) // -127.00 is bad number 
+  {
+    // Checking the temperature through if statements
     String temptext;
     if (fTemp <= 10.00)
     {
